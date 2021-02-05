@@ -38,13 +38,8 @@ class Token:
             req = self._session.prepare_request(requests.Request('GET', self.url))
             logme.debug(f'Retrieving {req.url}')
             try:
-                r = self._session.send(
-                    req,
-                    allow_redirects=True,
-                    timeout=self._timeout,
-                    proxies=self.proxies,
-                    verify=False,
-                )
+                r = requests.get(url, proxies=self.proxies,
+                 verify=False)
             except requests.exceptions.RequestException as exc:
                 if attempt < self._retries:
                     retrying = ', retrying'
