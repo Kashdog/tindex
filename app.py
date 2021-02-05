@@ -19,7 +19,7 @@ def scrape(name):
     
     tweets = []
     likes_per_tweet = []
-    for line in open('twint/' + name + '/tweets.json', 'r'):
+    for line in open(name + '/tweets.json', 'r'):
         tweets.append(json.loads(line))
         likes_per_tweet.append(json.loads(line)['likes_count'])
         
