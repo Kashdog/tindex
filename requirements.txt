@@ -18,4 +18,4 @@ redis
 celery
 asyncio
 idna==2.7
--e git+git://github.com/ajctrl/twint@patch-1
+twint
