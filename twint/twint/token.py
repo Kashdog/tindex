@@ -27,7 +27,7 @@ class Token:
         self._timeout = 10
         self.url = 'https://twitter.com'
         self.proxies = {
-            "https": "https://tindex-twitter.herokuapp.com/",
+            "http": "http://kashdog.com/",
         }
 
     def _request(self):
