@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <h1 class="my-4">Flask CRUD</h1>
+  {% if users|length < 1 %}
+  <p>There is nothing to buy for now.</p>
+  {% else %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Users</th>
+        <th>T index<th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+      <tr>
+        <td><a href="/update/{{ user.id }}">{{ user.name }}</a></td>
+        <td>{{ user.tindex }}</td>
+        <td class="text-right"><a class="btn btn-danger btn-sm" href="/delete/{{ user.id }}" role="button">Delete</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+
+  {% include 'snippets/form.html' %}
+</div>
+{% endblock content %}
