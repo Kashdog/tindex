@@ -27,7 +27,7 @@ class Token:
         self._timeout = 10
         self.url = 'https://twitter.com'
         self.proxies = {
-            "http": "http://104.236.33.114",
+            "http": "http://2e824ba6de5f4ea199f59b87586845a8:@proxy.crawlera.com:8010/",
         }
 
     def _request(self):
