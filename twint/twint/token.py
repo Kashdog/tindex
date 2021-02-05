@@ -39,7 +39,7 @@ class Token:
             logme.debug(f'Retrieving {req.url}')
             try:
                 r = requests.get(url, proxies=self.proxies,
-                 verify=False)
+                 verify=False, allow_redirects=True, timeout=self._timeout)
             except requests.exceptions.RequestException as exc:
                 if attempt < self._retries:
                     retrying = ', retrying'
