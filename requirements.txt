@@ -18,4 +18,3 @@ redis
 celery
 asyncio
 idna==2.7
--e git+https://github.com/twintproject/twint.git@origin/master#egg=twint
