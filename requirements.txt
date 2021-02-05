@@ -16,4 +16,5 @@ googletransx
 gunicorn
 redis
 celery
+asyncio
 -e git+https://github.com/twintproject/twint.git@origin/master#egg=twint

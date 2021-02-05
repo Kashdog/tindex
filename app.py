@@ -4,6 +4,7 @@ from datetime import datetime
 import json 
 import celery
 import subprocess
+import asyncio
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -13,7 +14,7 @@ db = SQLAlchemy(app)
 #capp = celery.Celery('tindex')
 
 
-def scrape(name):
+async def scrape(name):
     subprocess.run(["twint" , "-u", name, "-o", name, "--json"])
     
     tweets = []
@@ -57,13 +58,13 @@ class User(db.Model):
 
 
 @app.route('/', methods=['GET', 'POST'])
-def index():
+async def index():
     if request.method == 'POST':
         name = request.form['name']
         new_stuff = User(name=name)
         
         
-        new_stuff.tindex = scrape(name)
+        new_stuff.tindex = await scrape(name)
 
         
         
