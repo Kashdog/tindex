@@ -46,6 +46,9 @@ def index():
         name = request.form['name']
         new_stuff = User(name=name)
         
+        import subprocess
+        subprocess.run(["twint" , "-u", name, "-o", name, "--json"])
+        
         tweets = []
         likes_per_tweet = []
         for line in open('twint/' + name + '/tweets.json', 'r'):
