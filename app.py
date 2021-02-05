@@ -2,12 +2,29 @@ from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import json 
+import celery
+import subprocess
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+capp = celery.Celery('tindex')
+
+
+@capp.task
+def scrape(name):
+    subprocess.run(["twint" , "-u", name, "-o", name, "--json"])
+    
+    tweets = []
+    likes_per_tweet = []
+    for line in open('twint/' + name + '/tweets.json', 'r'):
+        tweets.append(json.loads(line))
+        likes_per_tweet.append(json.loads(line)['likes_count'])
+        
+    return H_index(likes_per_tweet)
+    
 
 def H_index(citations): 
       
@@ -46,15 +63,8 @@ def index():
         name = request.form['name']
         new_stuff = User(name=name)
         
-        import subprocess
-        subprocess.run(["twint" , "-u", name, "-o", name, "--json"])
         
-        tweets = []
-        likes_per_tweet = []
-        for line in open('twint/' + name + '/tweets.json', 'r'):
-            tweets.append(json.loads(line))
-            likes_per_tweet.append(json.loads(line)['likes_count'])
-        new_stuff.tindex = H_index(likes_per_tweet)
+        new_stuff.tindex = scrape(name)
 
         
         

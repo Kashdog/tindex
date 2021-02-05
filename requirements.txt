@@ -15,3 +15,5 @@ fake-useragent
 googletransx
 gunicorn
 twint
+redis
+celery
