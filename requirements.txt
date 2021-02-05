@@ -17,4 +17,5 @@ gunicorn
 redis
 celery
 asyncio
+idna==2.7
 -e ./twint
