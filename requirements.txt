@@ -17,4 +17,3 @@ gunicorn
 redis
 celery
 asyncio
-twint
