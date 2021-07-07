@@ -26,12 +26,7 @@ class Token:
         self._retries = 5
         self._timeout = 10
         self.url = 'https://twitter.com'
-        proxy_host = "proxy.crawlera.com"
-        proxy_port = "8010"
-        proxy_auth = "2e824ba6de5f4ea199f59b87586845a8:" # Make sure to include ':' at the end
-        self.proxies = {"https": "https://{}@{}:{}/".format(proxy_auth, proxy_host, proxy_port), 
-        "http": "http://{}@{}:{}/".format(proxy_auth, proxy_host, proxy_port)}
-
+        
     def _request(self):
         for attempt in range(self._retries + 1):
             # The request is newly prepared on each retry because of potential cookie updates.
