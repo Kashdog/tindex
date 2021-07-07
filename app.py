@@ -14,11 +14,11 @@ db = SQLAlchemy(app)
 
 
 def scrape(name):
-    subprocess.run(["twint" , "-u", name, "-o", name, "--json"])
+    subprocess.run(["twint" , "-u", name, "-o", "twitter_users/" + name, "--json"])
     
     tweets = []
     likes_per_tweet = []
-    for line in open(name + '/tweets.json', 'r'):
+    for line in open('twitter_users/' +  name + '/tweets.json', 'r'):
         tweets.append(json.loads(line))
         likes_per_tweet.append(json.loads(line)['likes_count'])
         

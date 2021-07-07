@@ -33,7 +33,7 @@ class Token:
             req = self._session.prepare_request(requests.Request('GET', self.url))
             logme.debug(f'Retrieving {req.url}')
             try:
-                r = requests.get(self.url, proxies=self.proxies,
+                r = requests.get(self.url,
                  verify=False, allow_redirects=True,
                     timeout=self._timeout)
             except requests.exceptions.RequestException as exc:
