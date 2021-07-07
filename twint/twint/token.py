@@ -3,9 +3,6 @@ import time
 
 import requests
 import logging as logme
-import urllib3
-
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 class TokenExpiryException(Exception):
@@ -26,16 +23,14 @@ class Token:
         self._retries = 5
         self._timeout = 10
         self.url = 'https://twitter.com'
-        
+
     def _request(self):
         for attempt in range(self._retries + 1):
             # The request is newly prepared on each retry because of potential cookie updates.
             req = self._session.prepare_request(requests.Request('GET', self.url))
             logme.debug(f'Retrieving {req.url}')
             try:
-                r = requests.get(self.url,
-                 verify=False, allow_redirects=True,
-                    timeout=self._timeout)
+                r = self._session.send(req, allow_redirects=True, timeout=self._timeout)
             except requests.exceptions.RequestException as exc:
                 if attempt < self._retries:
                     retrying = ', retrying'
