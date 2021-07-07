@@ -60,19 +60,23 @@ class User(db.Model):
 def index():
     if request.method == 'POST':
         name = request.form['name']
-        new_stuff = User(name=name)
         
-        
-        new_stuff.tindex = scrape(name)
+        if len(db.session.query(User).filter(User.name == name).all()) == 0:
+            new_stuff = User(name=name)
+            
+            
+            new_stuff.tindex = scrape(name)
 
-        
-        
-        try:
-            db.session.add(new_stuff)
-            db.session.commit()
+            
+            
+            try:
+                db.session.add(new_stuff)
+                db.session.commit()
+                return redirect('/')
+            except:
+                return "There was a problem adding new stuff."
+        else:
             return redirect('/')
-        except:
-            return "There was a problem adding new stuff."
 
     else:
         users = User.query.order_by(User.created_at).all()

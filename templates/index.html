@@ -2,22 +2,25 @@
 
 {% block content %}
 <div class="container">
-  <h1 class="my-4">Flask CRUD</h1>
+  <h1 class="my-4">T Index</h1>
   {% if users|length < 1 %}
   <p>There is nothing to buy for now.</p>
   {% else %}
+  <a href="http://kashdog.com/cv">My CV (Aneesh Kashalikar)</a>
+  <p> Scroll to the bottom to add your own T-index. Scraping takes some time so there's a lag between pressing add and the update of the T-index </p>
+  </T-index></p>
   <table class="table">
-    <thead>
-      <tr>
-        <th>Users</th>
-        <th>T index<th>
-        <th></th>
-      </tr>
-    </thead>
+    <!--Table head-->
+		<thead class="mdb-color darken-3">
+			<tr class="text-white">
+				<th>Users</th>
+				<th>T index</th>
+			</tr>
+		</thead>
     <tbody>
       {% for user in users %}
       <tr>
-        <td><a href="/update/{{ user.id }}">{{ user.name }}</a></td>
+        <td><a href="https://twitter.com/{{user.name}}">{{ user.name }}</a></td>
         <td>{{ user.tindex }}</td>
       </tr>
       {% endfor %}
