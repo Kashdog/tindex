@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import json 
 import celery
+import os
 import subprocess
 
 app = Flask(__name__, static_url_path='')
@@ -48,6 +49,7 @@ def H_index(citations):
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     tindex = db.Column(db.Integer, nullable=True)
+    runs = db.Column(db.Integer, nullable=False)
     name = db.Column(db.String(80), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False,
                            default=datetime.utcnow)
@@ -60,27 +62,32 @@ class User(db.Model):
 def index():
     if request.method == 'POST':
         name = request.form['name']
+        
+        
         if len(db.session.query(User).filter(User.name == name).all()) == 0:
-            new_stuff = User(name=name)
+            new_stuff = User(name=name, runs = 0 )
+            
             db.session.add(new_stuff)
             db.session.commit()
-        
-        if len(db.session.query(User).filter(User.name == name).all()) == 1:
             
-
-            try:
-                user = User.query.filter_by(name=name).first()
-                user.tindex = scrape(name)
-                db.session.commit()
+            user = db.session.query(User).filter(User.name == name).first()
+            user.runs += 1
+            
+            if user.runs < 2:
+            
+                new_stuff.tindex = scrape(name)
                 
-                return redirect('/')
-            except:
-                return "There was a problem adding new stuff."
+                try:
+                    db.session.add(new_stuff)
+                    db.session.commit()
+                    return redirect('/')
+                except:
+                    return "There was a problem adding new stuff."
         else:
             return redirect('/')
 
     else:
-        users = User.query.order_by(User.created_at).all()
+        users = db.session.query(User).filter(User.tindex != None).all()
         return render_template('index.html', users=users)
 
 
