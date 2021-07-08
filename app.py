@@ -5,7 +5,7 @@ import json
 import celery
 import subprocess
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -47,7 +47,7 @@ def H_index(citations):
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    tindex = db.Column(db.Integer, nullable=False)
+    tindex = db.Column(db.Integer, nullable=True)
     name = db.Column(db.String(80), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False,
                            default=datetime.utcnow)
@@ -60,18 +60,19 @@ class User(db.Model):
 def index():
     if request.method == 'POST':
         name = request.form['name']
-        
         if len(db.session.query(User).filter(User.name == name).all()) == 0:
             new_stuff = User(name=name)
+            db.session.add(new_stuff)
+            db.session.commit()
+        
+        if len(db.session.query(User).filter(User.name == name).all()) == 1:
             
-            
-            new_stuff.tindex = scrape(name)
 
-            
-            
             try:
-                db.session.add(new_stuff)
+                user = User.query.filter_by(name=name).first()
+                user.tindex = scrape(name)
                 db.session.commit()
+                
                 return redirect('/')
             except:
                 return "There was a problem adding new stuff."

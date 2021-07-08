@@ -2,13 +2,26 @@
 
 {% block content %}
 <div class="container">
-  <h1 class="my-4">T Index</h1>
+  <h1 class="my-4">T-index Lookup</h1>
+  <h2 class="my-4">Compute any one's T-index</h1>
   {% if users|length < 1 %}
-  <a href="http://kashdog.com/cv">My CV (Aneesh Kashalikar)</a>
-  <p> Scroll to the bottom to add your own T-index. Scraping takes some time so there's a lag between pressing add and the update of the T-index </p>
+  <a href="{{ url_for('static', filename = 'Aneesh_Kashalikar_CV_June2021.pdf') }}">My CV (Aneesh Kashalikar)</a>
+  <p> T-index is a measure based off academia's H-index, and computes a number T indicating that you have T tweets with T 
+    or more likes. </p>
+    
+  <p>This app scrapes a user's tweets under the hood to compute the T-index. </p>
+  
+  <p>Scraping takes some time so there's a lag between pressing
+     add and the update of the T-index </p>
   {% else %}
-  <a href="http://kashdog.com/cv">My CV (Aneesh Kashalikar)</a>
-  <p> Scroll to the bottom to add your own T-index. Scraping takes some time so there's a lag between pressing add and the update of the T-index </p>
+  <a href="{{ url_for('static', filename = 'Aneesh_Kashalikar_CV_June2021.pdf') }}">My CV (Aneesh Kashalikar)</a>
+  <p> T-index is a measure based off academia's H-index, and computes a number T indicating that you have T tweets with T 
+    or more likes. </p>
+    
+  <p>This app scrapes a user's tweets under the hood to compute the T-index. </p>
+  
+  <p>Scraping takes some time so there's a lag between pressing
+     add and the update of the T-index </p>
   <table class="table">
     <!--Table head-->
 		<thead class="mdb-color darken-3">
