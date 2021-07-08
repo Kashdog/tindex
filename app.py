@@ -63,28 +63,31 @@ def index():
     if request.method == 'POST':
         name = request.form['name']
         
+        if name != "":
         
-        if len(db.session.query(User).filter(User.name == name).all()) == 0:
-            new_stuff = User(name=name, runs = 0 )
-            
-            db.session.add(new_stuff)
-            db.session.commit()
-            
-            user = db.session.query(User).filter(User.name == name).first()
-            user.runs += 1
-            
-            if user.runs < 2:
-            
-                new_stuff.tindex = scrape(name)
+            if len(db.session.query(User).filter(User.name == name).all()) == 0:
+                new_stuff = User(name=name, runs = 0 )
                 
-                try:
-                    db.session.add(new_stuff)
-                    db.session.commit()
-                    return redirect('/')
-                except:
-                    return "There was a problem adding new stuff."
+                db.session.add(new_stuff)
+                db.session.commit()
+                
+                user = db.session.query(User).filter(User.name == name).first()
+                user.runs += 1
+                
+                if user.runs < 2:
+                
+                    new_stuff.tindex = scrape(name)
+                    
+                    try:
+                        db.session.add(new_stuff)
+                        db.session.commit()
+                        return redirect('/')
+                    except:
+                        return "There was a problem adding new stuff."
+            else:
+                return redirect('/')
         else:
-            return redirect('/')
+            return redirect("/")
 
     else:
         users = db.session.query(User).filter(User.tindex != None).all()
